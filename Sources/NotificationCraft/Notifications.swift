@@ -17,6 +17,7 @@ public protocol INotification {
   associatedtype Data
 
   static var name: NotificationName { get }
+  static var userInfoKey: String? { get }
 
 }
 
@@ -69,16 +70,19 @@ public extension INotification {
   }
 
   static var name: NotificationName { .string("notification.\(self)") }
+  static var userInfoKey: String? { "data" }
 
   static func post(_ data: Data) {
-    center.post(name: _name, object: nil, userInfo: ["data": data])
+    let userInfo: [AnyHashable: Any]? = userInfoKey.map { [$0: data] }
+    center.post(name: _name, object: nil, userInfo: userInfo)
   }
 
   static func observe(on queue: OperationQueue? = nil,
                       block: @escaping (Data) -> Void) -> RegisteredNotification {
     let queue = queue ?? .current
     let token = center.addObserver(forName: _name, object: nil, queue: queue) { notification in
-      guard let data = notification.userInfo?["data"] as? Data else { return }
+      guard let key = userInfoKey,
+            let data = notification.userInfo?[key] as? Data else { return }
 
       block(data)
     }
@@ -89,9 +93,11 @@ public extension INotification {
 }
 
 public extension INotification where Data == Void {
+  
+  static var userInfoKey: String? { nil }
 
   static func post() {
-    center.post(name: _name, object: nil, userInfo: ["data": Void()])
+    center.post(name: _name, object: nil, userInfo: nil)
   }
 
   static func observe(on queue: OperationQueue? = nil,

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "callbackscraft",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dDomovoj/CallbacksCraft.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "354a4c13d4fd715a8de4d3b569b3c2ff5b31350b"
+      }
+    }
+  ],
+  "version" : 2
+}

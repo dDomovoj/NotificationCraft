@@ -30,7 +30,7 @@ public extension Notification {
 
     public enum ContentSizeCategoryChange: INotification {
       public typealias Data = Void
-      public static var name: String { UIContentSizeCategory.didChangeNotification.rawValue }
+      public static var name: NotificationName { .notification(UIContentSizeCategory.didChangeNotification) }
     }
 
     public enum DidBecomeActive: INotification {
