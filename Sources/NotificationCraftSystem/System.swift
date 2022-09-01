@@ -29,7 +29,8 @@ public extension Notification {
     }
 
     public enum ContentSizeCategoryChange: INotification {
-      public typealias Data = Void
+      public typealias Data = UIContentSizeCategory
+      public static var userInfoKey: String? { UIContentSizeCategory.newValueUserInfoKey }
       public static var name: NotificationName { .notification(UIContentSizeCategory.didChangeNotification) }
     }
 
