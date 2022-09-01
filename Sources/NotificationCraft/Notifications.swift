@@ -101,10 +101,10 @@ public extension INotification where Data == Void {
   }
 
   static func observe(on queue: OperationQueue? = nil,
-                      block: @escaping () -> Void) -> RegisteredNotification {
+                      block: @escaping (Data) -> Void) -> RegisteredNotification {
     let queue = queue ?? .current
     let token = center.addObserver(forName: _name, object: nil, queue: queue) { _ in
-      block()
+      block(Data())
     }
     let result = RegisteredNotification(token: token, center: center, name: _name)
     return result
