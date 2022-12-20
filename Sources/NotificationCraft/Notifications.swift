@@ -6,8 +6,6 @@
 
 import Foundation
 
-import CallbacksCraft
-
 public enum NotificationName {
   case string(String)
   case notification(Foundation.Notification.Name)
@@ -47,7 +45,7 @@ public final class RegisteredNotification {
     if unmanaged != nil { return }
     
     unmanaged = .passRetained(self)
-    object.onDeinit.once { [weak self] in
+    object.onDeinit = { [weak self] in
       guard let self = self else { return }
       
       self.unmanaged?.release()
